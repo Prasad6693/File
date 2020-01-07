@@ -1,0 +1,44 @@
+AWS
+https://us-east-2.console.aws.amazon.com/console/home?region=us-east-2#
+1.Search for S3 -->https://console.aws.amazon.com/s3/home?region=us-east-2
+2.Create bucket click next->next->finish
+
+
+Step 2  -----if required
+1.Services on top search Cloudfront
+2.Create Distribution 
+
+Step 3 for creating access key and auth key
+1.Search for IAM 
+2.Create user from IAM 
+3.Select programtic access
+4.Skip
+3.Attch existing policy -->search for s3 select all policy
+4.Next till finish
+
+
+Step 4 
+1.Go to s3 bucket
+2.Permisson tab
+2.1 Public access settings(Uncheck all)
+2.2 Save
+
+3.Bucket policy
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::bucketname/*"
+        }
+    ]
+}
+
+
+4.CORS tab
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><CORSRule><AllowedOrigin>*</AllowedOrigin><AllowedMethod>HEAD</AllowedMethod><AllowedMethod>GET</AllowedMethod><AllowedMethod>PUT</AllowedMethod><AllowedMethod>POST</AllowedMethod><AllowedMethod>DELETE</AllowedMethod><ExposeHeader>ETag</ExposeHeader><AllowedHeader>*</AllowedHeader></CORSRule></CORSConfiguration>

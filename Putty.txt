@@ -1,0 +1,13 @@
+1.zip -r filename(destination) sourcefilename
+2.rm -rf filename----to remove
+3.mkdir ---to create directory
+4.unzip filename
+5.cp from(pathnaem) to(destinationpath)
+
+*********************putty**************
+1.For PPK file
+	1.1 Enter IP and port
+        1.2 Go to SSH->Auth->Choose file and load it.
+2.For Direct
+	2.1 Enter the IP
+	2.2 Open it enter uname and pwd

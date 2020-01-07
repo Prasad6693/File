@@ -1,0 +1,1618 @@
+****Leave****
+5th April 2019--------1
+30th April + MAy 2,3(doubt)----3
+27th may half day---0.5
+3rd July 1 day------1
+2nd August------1
+30th August-----1
+12,13 th September 1 and half day (worked half day on sat 7th)----1.5
+14th october----1
+13,14,15,18 November ---4
+Total--14
+
+for email verify
+var emails = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+
+
+
+multiple delete
+ $('#inactivate').click(function(){
+        $("#modalFooter").html("");
+        var val=[];
+        $(':checkbox:checked').each(function(i){
+            val[i]=$(this).val();
+        });
+    if(val.length==0){
+        var modalText = 'Please select at least one code to Deactivate';
+                var button = '<button type="button" class="btn btn-primary pull-right" data-dismiss="modal">CLOSE</button>';
+                    $('#modalBodyText').text(modalText);
+                    $("#modalFooter").append(button);
+                    $("#confirmmodels").modal();
+        }else{
+            $('#modalBodyText').text('');
+            $("#modalFooter").text('');
+            var modalText = 'Do you want to continue to Deactivate';
+
+            $('#modalBodyText').text(modalText);
+            var deleteButton = '<button type="button" class="btn btn-primary pull-right"  id="confirmDeativate" style="margin:0;">YES</button>"';
+            $("#modalFooter").append(deleteButton);
+            $("#confirmmodels").modal();
+
+        }
+
+   });
+
+
+$("body").on('click', '#confirmDeativate', function (){        
+            var status = 2;
+            var val = [];
+            $(':checkbox:checked').each(function(i){
+              val[i] = $(this).val();
+            });
+            updateCampaignStatus(val, status);
+        });
+
+
+
+***********modal for multiple*****
+<div class="modal fade " id="confirmmodels" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Confirmation</h4>
+            </div>
+            <br>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="" id="modalBodyText" ></div>
+
+                </div>
+            </div>
+
+            <br>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-sm-4" ></div>
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4" id="modalFooter">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+****************to post the value
+ $pass = $this->input->post('newpass');---->refer store manger (#resetPasswordConfirm)
+
+
+
+
+
+
+*************dynamically make table***************->refered store manager
+   $(document).on('click', '#btndeviceLogs', function () {
+
+            var val = $(this).val();
+
+            $('#device_log_data').empty();
+            $.ajax({
+                url: "<?php echo base_url('index.php?/Storemanagers') ?>/getDeviceLogs/manager",
+                type: "POST",
+                data: {mas_id: val},
+                dataType: 'json',
+                success: function (result)
+                {
+
+                    var html = '';
+                    var deviceType = '';
+                    var OS = '';
+                    $('#d_name_history').text(result.user)
+                    $.each(result.data, function (index, logs) {
+                        deviceType = '-';
+                        if (logs.deviceType != 0 && logs.deviceType != "")
+                        {
+                            switch (logs.deviceType) {
+                                case 1:
+                                    deviceType = 'IOS';
+                                    break;
+                                case 2:
+                                    deviceType = 'ANDRIOD';
+                                    break;
+                                default:
+                                    deviceType = 'WEB';
+                                    break;
+                            }
+
+                        }
+                        if (logs.deviceOsVersion == "") {
+                            OS = "N/A";
+                        } else {
+                            OS = logs.deviceOsVersion;
+                        }
+                        var date = new Date(logs.lastLogin * 1000);
+//                                        deviceType = ((logs.deviceType != 0)?((logs.deviceType != 0)?'IOS':'ANDRIOD')):'-';
+                        html = "<tr>";
+                        html += "<td>" + deviceType + "</td>";
+                        html += "<td>" + logs.appVersion + "</td>";
+                        html += "<td>" + logs.deviceMake + "</td>";
+                        html += "<td>" + logs.deviceModel + "</td>";
+                        html += "<td>" + logs.deviceId + "</td>";
+                        html += "<td>" + OS + "</td>";
+                        html += "<td><span class='pushTokenShortShow'>" + logs.pushToken + "</span></td>";
+                        html += "<td>" + date + "</td>";
+
+                        html += "</tr>";
+                        $('#device_log_data').append(html);
+
+                    });
+
+
+                }
+            });
+
+            $('#deviceLogPopUp').modal('show');
+
+        });
+
+
+
+
+
+**************************************************languAGE******************************FOR MULTIPLE LANGUAGE
+        $respo['lang'] = $this->mongo_db->get_where('lang_hlp', array('Active' => 1));
+
+
+           if(count($respo['lang'])<1){
+               
+            $productname=($value['pName']['en'] != "" || $value['pName']['en'] != null) ? $value['pName']['en']: 'N/A';
+          
+           }else{
+            
+            $productname=($value['pName']['en'] != "" || $value['pName']['en'] != null) ? $value['pName']['en']: 'N/A';
+
+            foreach( $respo['lang'] as $lang){
+
+                $lan= $lang['langCode'];
+                $productnames=($value['pName'][$lan] != "" || $value['pName'][$lan] != null) ? $value['pName'][$lan]: '';
+                
+                
+               if(strlen( $productnames)>0){
+                $productname.= ',' . $productnames;
+               }
+            }
+
+
+           }
+
+
+************verify*********for lang
+$lang = $this->mongo_db->get('lang_hlp');
+        foreach ($lang as $glan) {
+            if ($glan['Active'] == 1) {
+            $langcount = count($data['sizeAttr'][$glan['langCode']]);
+            for ($k = 0; $k < $langcount; $k++) {
+            $data1['sizeAttr'][$k + 1]['sAttrLng'][$glan['langCode']] = $data['sizeAttr'][$glan['langCode']][$k];
+            }
+          }
+        }
+
+******end verify*************
+
+
+*********Export excel****
+1.Controller-->Order
+2.Model--->OrderModel
+3.View-->Order/index
+
+*****mogno query
+$cursor = $this->mongo_db->where(array("_id" => new MongoDB\BSON\ObjectID($id)))->get('franchise');
+
+
+********default tab in changemod
+var urlChunks = $("li.active").find('.changeMode').attr('data').split('/');
+        var status = urlChunks[urlChunks.length - 1];
+
+*******select particular in mongodb
+ $res = $this->mongo_db->where(array("status" => 2))->select(array("name"=>"name"))->get("franchise");
+
+
+**********checkbox
+ var consumptionTime = new Array(); 
+            $("input:checkbox[class=consumptionTime]:checked").each(function(){
+                consumptionTime.push($(this).val());
+            });
+
+*******multiselect
+ var addon = [];
+ $.each($(".addons option:selected"), function(){            
+   addon.push($(this).val());
+ });
+
+
+*******onclick of tab
+whenclickedtab --> is name of th e class
+ $('.whenclickedtab li').click(function(){
+      alert('clcik');
+	  if ($(this).attr('id') == "my1") {
+	  
+	  }
+  });
+
+
+***********dropdown 
+ <?php
+if(count($language)<1){                                                   
+    foreach($category as $cat){
+	    echo "<option  data-name='" . $cat['name']['en'] . "' data-id=" . $cat['categoryId'] . " value=" . $cat['categoryId'] . ">" . $cat['name']['en'] . "</option>";
+       }
+} else{
+	foreach($category as $cat){
+
+		$catname=($cat['name']['en'] != "" || $cat['name']['en'] != null) ? $cat['name']['en']: 'N/A';
+		foreach( $language as $lang){
+			$lan= $lang['langCode'];
+			$catnames=($cat['pName'][$lan] != "" || $cat['pName'][$lan] != null) ? $cat['pName'][$lan]: '';                                                           
+			if(strlen( $catnames)>0){
+				$catname.= ',' . $catnames;
+			}
+		}
+
+		echo "<option  data-name='" . $catname . "' data-id=" . $cat['categoryId'] . " value=" . $cat['categoryId'] . ">" . $catname . "</option>";
+
+		}
+   
+}
+?> 
+
+***********jquery lang************
+var listData='';
+var langData = <?php echo json_encode($language); ?>;
+html = '<option value="">Select Sub Category</option>'
+$.each(r, function (index, row) {
+ listData= (row.storeSubCategoryName.en);
+ $.each(langData,function(i,lngrow){
+	lngcode= lngrow.langCode;
+	
+	var lngvalue = row.storeSubCategoryName.lngcode;
+	lngvalue = (lngvalue==''|| lngvalue==null )?" ":lngvalue;
+   listData +=","+lngvalue; 
+  
+});
+
+	html += '<option data-name="' + row.name + '"value="' + row._id.$oid + '">' + listData + '</option>';
+});
+$('#subcatLists').append(html); 
+
+*****************aerial ****************
+ if($role=="ArialPartner"){
+            $cityname=$this->session->userdata("cityId");          
+            $reqArr['cityId'] = $cityname;                           
+         }else{
+             
+         }
+********aerial datatable*****************
+$role = $this->session->userdata("role");
+					   if($role!="ArialPartner"){
+            $respo = $this->datatables->datatable_mongodb('completedOrders', array(),'',-1);
+					   }else{
+						   $respo = $this->datatables->datatable_mongodb('completedOrders', array("cityId"=>(string)$this->session->userdata("cityId")),'',-1);
+					   }
+
+******php array to bbject format*************
+  $dataAddOns=[];
+        
+        foreach($data['addOns'] as $addOn){ 
+            $id=new MongoDB\BSON\ObjectID();
+            $dataAddOn = (object) array("id"=>$id,"name"=> $addOn['name']);          
+            array_push($dataAddOns, $dataAddOn);
+        }
+
+******************mongo skip limit **********
+ $res=$this->mongo_db->where(array("status" => 1))->limit(10)->offset(20)->get('products');
+
+*******************session currency**************
+  $data['currencySymbol'] = $this->session->userdata('badmin')['Currency'];;
+
+***************update query
+//$result = $this->mongo_db->where(array("_id" => new MongoDB\BSON\ObjectID($id),"storeId"=>$storeId,"addOns.id"=>$addOndata['addOnId']))->set(array("addOns.$.price"=> $priceupdate))->update('storeAddOns');         
+
+
+*****jquery page***********
+1.Supplier in 5canale
+
+
+
+*******jquery to sellect checkboxes**********
+<div class="tab-pane slide-left padding-20" id="tab4">
+   <div class="row row-same-height">
+        <div class="" id="serviceZonesdel"></div>
+              
+            <?php
+                foreach ($cityForZonesData as $key => $value) {
+                $checked = '';
+                if (in_array($key, $data['serviceZones']))
+                $checked = 'checked';
+             ?>
+          <div class="form-group">
+              <label for="fname" class="col-sm-2 control-label"><?php echo $value ?></label>
+                  <div class="col-sm-6">
+                      <input id="" name="checkboxs[]" value="<?php echo $key ?>" required="required"  type="checkbox" class="checkbox" <?php echo $checked; ?>>
+                      </div>
+                  <div class="col-sm-3 error-box" id="file_driver_exdate"></div>
+                  </div>
+          <?php
+            }
+          ?>
+                                </div>
+                            </div>
+
+========================================================================================
+session store
+$data['storeID'] = $this->session->userdata('badmin')['BizId'];   
+
+franchise session
+$data['franchiseId']=$this->session->userdata('fadmin')['MasterBizId'];
+
+=========================================================================================
+Active tab
+ var urlChunks = $("li.active").find('.changeMode').attr('data').split('/');
+                var status = urlChunks[urlChunks.length - 1];
+
+
+
+===============================================================================
+ $respo = $this->datatables->datatable_mongodb('stores', array('status' => (int) $status), '',-1);
+
+
+
+================================================================multi multiselect using php
+ <select class="multiple form-control" id="sizeGroup" name="size[]" multiple="multiple" >
+    <?php														
+														
+		$sizeIds = [];
+		foreach ($productsData['sizes'] as $sizeData) {
+			array_push($sizeIds, $sizeData['sizeId']);
+		}
+		
+		 if(count($language) < 1){
+		foreach ($size as $result) {
+			if (in_array($result['_id']['$oid'], $sizeIds)) {
+			echo "<option selected value=" . $result['_id']['$oid'] . "  data-name='" . $result['name']['en'] . "'>" . $result['name']['en'] . "</option>";
+			}else{
+				echo "<option  value=" . $result['_id']['$oid'] . "  data-name='" . $result['name']['en'] . "'>" . $result['name']['en'] . "</option>";
+			}
+		}
+	}
+	else{
+		
+		foreach ($size as $result) {
+			$catData=$result['name']['en'];
+			foreach($language as $lngData){
+			$lngcode=$lngData['langCode'];
+			$lngvalue= ($result['name'][$lngcode]=='') ? "":$result['name'][$lngcode];
+			if(strlen( $lngvalue)>0){
+				$catData.= ',' . $lngvalue;
+			   }
+		   } 
+			if (in_array($result['_id']['$oid'], $sizeIds)) {
+		echo "<option selected value=" . $result['_id']['$oid'] . "  data-name='" .  $catData . "'>" . $catData . "</option>";
+			}else{
+			 echo "<option  value=" .$result['_id']['$oid'] . "  data-name='" .  $catData . "'>" . $catData . "</option>";	
+			}
+		}
+	}
+	
+	
+	   
+		?>
+
+	</select>
+
+=====================================================================
+========Status code for js/jquery/ajax===============================
+.done(function(json,textStatus, xhr) {
+ console.log(xhr.status);
+}
+
+=====================================================================
+ $headers = array(
+            'language:en'          
+            
+        );
+		
+ $headerData = array(
+     'popularstatus' => 0,
+     'zoneId' => '5c73f3c202df3565144487b1',
+     'storeId' => $storeId,
+     'language' => 'en'
+     );
+				
+            // Open connection
+                    $ch = curl_init();
+
+            // Set the url, number of POST vars, POST data
+                    curl_setopt($ch, CURLOPT_URL, 'https://api.tapp4food.com/agent/signUp');
+
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            // Disabling SSL Certificate support temporarly
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+            // Execute post
+                    $result = curl_exec($ch);
+
+                    curl_close($ch);
+            //        echo 'Result from google:' . $result . '---';
+                    $res_dec = json_decode($result);
+              
+        // $resp = $this->mongo_db->insert('dpm', $data);
+        echo json_encode($res_dec);
+                         
+
+
+===========================================
+var d = new Date(productoffer.startDateTime*1000);
+var n = d.toLocaleTimeString();
+
+
+================multiple update in mongodb============
+db.getCollection('storeAddOns').update({"mandatory" : "1"},{$set:{"mandatory" : 1}},{"multi" : true})
+
+================language when adding/editing==============
+
+        foreach ($lang as $lan) {
+                    $lanCodeArr[0] = "en";
+                    $lanIdArr[0] = "0";
+            if ($lan['Active'] == 1) {
+                    array_push($lanCodeArr, $lan['langCode']);
+                    array_push($lanIdArr, $lan['lan_id']);        
+                
+            if (count($lanCodeArr) == count($name)) {
+                    $data['name'] = array_combine($lanCodeArr, $name);
+                
+                } else {
+                    $data['name']['en'] = $name[0];
+                
+                }
+            
+                if (count($lanCodeArr) == count($desc)) {
+                    $data['description'] = array_combine($lanCodeArr, $desc);           
+                } else {
+                    $data['description']['en'] = $desc[0];
+                }
+            }      
+
+        }
+
+
+=========================multiple update========================
+'$set':{"status" : 2,
+"statusMsg" : "Approved",}   in robo3t
+
+=================multiple update=============
+ $storeUpdate = $this->mongo_db->where(array('cityId' => $id ))->set($storeData)->update('stores_copy',array('multi'=>TRUE)); 
+ 
+ =============================
+  curl_setopt($ch, CURLOPT_URL, APILink .'child/product');
+  
+   curl_setopt($ch, CURLOPT_URL, APILink . 'productDelete/' . $data .'/'. $storeId);
+   
+   
+ ===========================================
+ db.getCollection('stores').update(
+    // query 
+    {
+        "freeDeliveryAbove" : {'$exists':true}
+    },
+    
+    // update 
+    {
+        '$set':{"freeDeliveryAbove" : "70"}
+    },
+    
+    // options 
+    {
+        "multi" : true,  // update only one document 
+        "upsert" : false  // insert a new document, if no existing document match the query 
+    }
+);
+
+
+NumberInt(0)
+
+======================store service zone issue================
+   $("#serviceZones").multiselect('destroy');
+                var serviceZone = '';
+                if (json.data.length > 0) {
+                    for (var i = 0; i < json.data.length; i++) {
+                        serviceZone += "<option value=" + json.data[i].id + ">" + json.data[i].title + "</option>";
+
+                    }
+
+                } else {
+                    serviceZone = "<option value=''>No zones found</option>";
+                    $("#serviceZones").html(serviceZone);
+                }
+                $("#serviceZones").html(serviceZone);
+                $('#serviceZones').multiselect({
+                    includeSelectAllOption: true,
+                    enableFiltering: true,
+                    enableCaseInsensitiveFiltering: true,
+                    buttonWidth: '500px',
+                    maxHeight: 300,
+                });
+				
+=================js for pushing into object map===========
+function placeCom(place){
+
+       var address = place.address_components;
+       console.log('palce------',address);
+
+           
+            var tempData =  {};
+
+            var city, state, zip;
+           
+
+            address.forEach(function(component) {
+            var types = component.types;
+            if (types.indexOf('locality') > -1) {
+                city = component.long_name;
+                tempData['locality'] = city; 
+            }
+
+            if (types.indexOf('administrative_area_level_1') > -1) {
+                state = component.short_name;
+                tempData['administrative_area_level_1'] = state; 
+            }
+
+            if (types.indexOf('postal_code') > -1) {
+                zip = component.long_name;
+                tempData['postal_code'] = zip; 
+            }
+
+             if (types.indexOf('route') > -1) {
+                route = component.long_name;
+                tempData['route'] = route; 
+            }
+
+            
+
+             if (types.indexOf('sublocality_level_1') > -1) {
+                sublocality1 = component.long_name;
+                tempData['sublocality_level_1'] = sublocality1; 
+            }
+
+             if (types.indexOf('sublocality_level_2') > -1) {
+                sublocality2 = component.long_name;
+                tempData['sublocality_level_2'] = sublocality2; 
+            }
+
+             if (types.indexOf('administrative_area_level_2') > -1) {
+                admin1 = component.long_name;
+                tempData['administrative_area_level_2'] = admin1; 
+            }
+            
+            if (types.indexOf('country') > -1) {
+                country = component.long_name;
+                tempData['country'] = country; 
+            }         
+
+    });
+
+      
+
+    console.log('object----',tempData);
+
+
+}
+
+==================
+ $wallet=array("balance"=>0.0,"blocked"=>0.0,"hardLimit"=>0.0,"softLimit"=>0.0,"softLimitHit"=>false,"hardLimitHit"=>false);
+ 
+ 
+ ============Seo modal error=============
+ 1.https://stackoverflow.com/questions/38793676/php-xml-extension-not-installed
+ sudo apt-get install php-xml
+ 
+ 
+ ==============city creation=======
+  <input type="hidden" class="form-control" id="entiryLongitude"  placeholder="0.00" name="Longitude"  aria-required="true" <?PHP echo $enable; ?> value='<?php echo $storedata['coordinates']['longitude']; ?>'>
+                            <input type="hidden" class="form-control" id="entiryLatitude"  placeholder="0.00" name="Latitude"  aria-required="true" <?PHP echo $enable; ?> value='<?php echo $storedata['coordinates']['latitude']; ?>'>
+							
+							
+							 <div class="form-group" id="Address_txt" >
+
+                                <label for="fname" class="col-sm-2 control-label "><?php echo 'Address'; ?><span class="MandatoryMarker">*</span></label>
+                                <div class="col-sm-6">
+                                    
+                                    <textarea class="form-control entityAddress error-box-class" id="entityAddress_0" placeholder="Hub Address" name="Address[0]"  aria-required="true"  onkeyup="getAddLatLong1(this)" style="max-width: 100%;"><?php echo $storedata['storeAddr']; ?></textarea>
+                                </div>
+                                <button  type="button" id="mapbtn1" class=" btn btn-info btn-sm col-sm-1" 
+                                        style="margin-top: 0px;
+                                        width: 5%;
+                                        border-radius: 45px;
+                                        position: relative;
+                                        height: 30px;
+                                        font-size: 13px;" 
+                                        accesskey="" name="action" onclick="callMap();" value="add" data-id="1"><?php echo 'MAP'; ?></button>
+                                <div class="col-sm-2 error-box" id="text_entityAddress_0" style="color:red"></div>
+                            </div>
+							
+							
+							<script>
+    var addressType = '';
+    function callMap() {
+        $('#mapentityAddress').val('');
+        $('#mapBtnDataId').val($('#mapbtn1').attr("data-id"));
+        $('#ForMaps').modal('show');
+        addressType = 1;
+        if ($('#entiryLatitude').val() != "" && $('#entiryLongitude').val() != "") {
+            $('#latitude').val($('#entiryLatitude').val());
+            $('#longitude').val($('#entiryLongitude').val());
+            initialize1($('#entiryLatitude').val(), $('#entiryLongitude').val());
+            $('#mapentityAddress').val($('#entityAddress_0').val());
+        } else {
+            var loc = '';
+            $('#mapentityAddress,#latitude,#longitude').val("");
+            $.get("https://ipinfo.io/json", function (response) {
+                loc = response.loc;
+                var res = loc.split(",");
+                initialize1(res[0], res[1]);
+            }, "jsonp");
+        }
+    }
+    function callMap1() {
+    function callMap1() {
+        $('#mapentityAddress').val('');
+        $('#mapBtnDataId').val($('#mapbtn2').attr("data-id"));
+        $('#ForMaps').modal('show');
+        addressType = 2;
+        if ($('#entityAddress_01').val() != "") {
+            $('#mapentityAddress').val($('#entityAddress_01').val());
+            $.ajax({
+                url: "<?php echo base_url(); ?>application/views/get_latlong.php",
+                method: "POST",
+                data: {Address: $('#mapentityAddress').val()},
+                datatype: 'json', // fix: need to append your data to the call
+                success: function (data) {
+                    var Arr = JSON.parse(data);
+                    console.log(data);
+                    if (Arr.flag == 1) {
+                        $('#latitude').val(Arr.Lat);
+                        $('#longitude').val(Arr.Long);
+                        initialize1(Arr.Lat, Arr.Long, '0');
+                    }
+                }
+            });
+        } else {
+            var loc = '';
+            $.get("https://ipinfo.io/json", function (response) {
+                loc = response.loc;
+                var res = loc.split(",");
+                initialize1(res[0], res[1]);
+            }, "jsonp");
+        }
+    }
+    function Cancel() {
+        //console.log("Test");
+        $('#mapBtnDataId').val('');
+        $('#ForMaps').modal('hide');
+    }
+
+    function Take() {
+        if (addressType == 1) {
+            $('#entiryLongitude').val($('#longitude').val());
+            $('#entiryLatitude').val($('#latitude').val());
+            $('.entityAddress').val($('#mapentityAddress').val());
+        } else if (addressType == 2) {
+            $('#entityAddress_01').val($('#mapentityAddress').val());
+        }
+        $('#mapBtnDataId').val('');
+        $('#ForMaps').modal('hide');
+    }
+
+    function initialize1(lat, long, from) {
+        console.log("my lat",lat,"my long",long,"from",from)
+        if (lat != '' || long != '')
+        {
+            myLatlng = new google.maps.LatLng(lat, long);
+        } else {
+            myLatlng = new google.maps.LatLng(20.268455824834792, 85.84099235520011);
+        }
+
+        var mapOptions = {
+            zoom: 15,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            panControl: true,
+            zoomControl: true,
+            scaleControl: true,
+            mapTypeControl: true,
+            streetViewControl: true,
+            overviewMapControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+            },
+        };
+        map = new google.maps.Map(document.getElementById("myMap"), mapOptions);
+        marker = new google.maps.Marker({
+            map: map,
+            position: myLatlng,
+            draggable: true
+        });
+
+        geocoder.geocode({'latLng': myLatlng}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    if (from == '1') {
+                        $('#entiryLongitude').val(marker.getPosition().lng());
+                        $('#entiryLatitude').val(marker.getPosition().lat());
+                    } else {
+                        $('#entityAddress').val(results[0].formatted_address);
+                        infowindow.setContent(results[0].formatted_address);
+                        infowindow.open(map, marker);
+                    }
+                }
+            }
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function () {
+
+            geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+
+                        $('#mapentityAddress').val(results[0].formatted_address);
+
+                        $('#latitude').val(marker.getPosition().lat());
+                        $('#longitude').val(marker.getPosition().lng());
+                        infowindow.setContent(results[0].formatted_address);
+                        infowindow.open(map, marker);
+                    }
+                }
+            });
+        });
+        google.maps.event.addListenerOnce(map, 'idle', function () {
+            google.maps.event.trigger(map, 'resize');
+        });
+
+    }
+
+    var map;
+    var marker;
+    var myLatlng = new google.maps.LatLng(20.268455824834792, 85.84099235520011);
+
+    var geocoder = new google.maps.Geocoder();
+    var infowindow = new google.maps.InfoWindow();
+
+    function getAddLatLong1(text) {
+
+        var addr = $('#entityAddress_0').val();
+        if (!addr) {
+            var addr = text;
+        }
+        console.log(addr);
+        $.ajax({
+            url: "<?php echo base_url(); ?>application/views/get_latlong.php",
+            method: "POST",
+            data: {Address: addr},
+            datatype: 'json', // fix: need to append your data to the call
+            success: function (data) {
+                var Arr = JSON.parse(data);
+                console.log(data);
+                if (Arr.flag == 1) {
+                    $('#entiryLatitude').val(Arr.Lat);
+                    $('#entiryLongitude').val(Arr.Long);
+                    initialize1(Arr.Lat, Arr.Long, '0');
+                }
+            }
+        });
+    }
+    function getAddLatLong() {
+        //console.log("my text",text)
+        var addr = $('#mapentityAddress').val();
+        var mapdataid=$('#mapBtnDataId').val();
+        console.log(mapdataid);
+        if (addr) {
+           // var addr = text;
+            //var addr = '';
+        
+        $.ajax({
+            url: "<?php echo base_url(); ?>application/views/get_latlong.php",
+            method: "POST",
+            data: {Address: addr},
+            datatype: 'json', // fix: need to append your data to the call
+            success: function (data) {
+                var Arr = JSON.parse(data);
+                $('#latitude').val(Arr.Lat);
+                $('#longitude').val(Arr.Long);
+                initialize1(Arr.Lat, Arr.Long, mapdataid);
+                
+
+            }
+        });
+    }
+    }
+        /* start */
+
+        function getAddLatLong2(text) {
+        var mapdataid=$('#mapBtnDataId').val();
+        console.log("mapdataid in 2 ",mapdataid)
+        if (text) {
+           var addr = text;
+            //var addr = '';
+        
+        $.ajax({
+            url: "<?php echo base_url(); ?>application/views/get_latlong.php",
+            method: "POST",
+            data: {Address: addr},
+            datatype: 'json', // fix: need to append your data to the call
+            success: function (data) {
+                // console.log("dataprint--------");
+                // console.log(data);
+                var Arr = JSON.parse(data);
+                $('#latitude').val(Arr.Lat);
+                $('#longitude').val(Arr.Long);
+                if(mapdataid!=''){
+                    initialize1(Arr.Lat, Arr.Long,mapdataid);
+                }
+                
+                else{
+                    initialize1(Arr.Lat, Arr.Long,'0');
+                }
+                
+
+            }
+        });
+    }
+    }
+        /* end */
+
+
+    function initialize() {
+        var id = '';
+
+        var input = document.getElementById('entityAddress_0');
+
+        var options = {componentRestrictions: {country: 'us'}};
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+            
+            document.getElementById('entiryLatitude').value = place.geometry.location.lat();
+            document.getElementById('entiryLongitude').value = place.geometry.location.lng();
+            //initialize(place.geometry.location.lat(), place.geometry.location.lng(), '0');
+            $('#longitude').val(place.geometry.location.lng());
+            $('#latitude').val(place.geometry.location.lat());
+            getAddLatLong1(place.formatted_address);
+        });
+
+        var input0 = document.getElementById('entityAddress_01');
+        var autocomplete0 = new google.maps.places.Autocomplete(input0);
+        google.maps.event.addListener(autocomplete0, 'place_changed', function () {
+            var place = autocomplete0.getPlace();
+            getAddLatLong2(place.formatted_address);
+        });
+
+        var input1 = document.getElementById('mapentityAddress');
+        var autocomplete1 = new google.maps.places.Autocomplete(input1);
+        google.maps.event.addListener(autocomplete1, 'place_changed', function () {
+            var place = autocomplete1.getPlace();
+            //getAddLatLong2(place.formatted_address);
+            document.getElementById('latitude').value = place.geometry.location.lat();
+            document.getElementById('longitude').value = place.geometry.location.lng();
+            getAddLatLong2(place.formatted_address);
+        });
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+
+</script>
+
+
+===================onclick disable button==============
+onclick="this.style.display = none"
+
+===========ubuntu command=======
+1.zip -r filename.zip filename_source
+2.unzip finame.zip
+3.rm -rf filename
+
+unzip file.zip
+
+
+====================
+PATCH /updateToProduct
+
+
+==jqury radio button==============
+$('input[name=name_of_your_radiobutton]:checked').val();
+
+//select using jquery
+  $("input[name=editdispatchusertype][value="+ result.data.dispatchusertype+"]").prop("checked",true);
+=======email validation========
+ var emails = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+ var email=email value;
+ 
+ if (!emails.test(email))
+	{
+
+		alert();
+
+	} 
+
+
+=============allow number and special char====================
+  var regex = new RegExp("^[0-9-!@#$%*?.]");
+        var key = String.fromCharCode(event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+
+=====offer page to be update=============
+  $("#productIds").empty();
+  
+  ******when store changes default in applicableOn
+  
+   $('#store').on('change',function(){
+
+            $('#applicableOn').val("");
+
+        });
+		
+		
+*********disable button*******
+$('#yesAdd').prop('disabled', true);
+
+
+
+******where and nin in mongodb**********
+ $data = $this->mongo_db->where(array("city_ID" =>$param, "_id" =>array('$nin'=>[new MongoDB\BSON\ObjectID($paramZone)]) ))->get('zones');
+ 
+***************seo model*****************
+
+ $fileName = dirname(__DIR__)."/../../xml/" . $id . '.xml';
+  $dom->save(dirname(__DIR__)."/../../xml/" . $fileName . ".xml");
+  
+******************time offset in modal**************
+  date('F  d, Y h:i:s A ', ($value['createdDate']) - ($this->session->userdata('timeOffset') * 60));
+  
+  
+**********storeType*************
+var type1 = $("#storeType option:selected").val();----for getting value
+
+edit
+$('#editstoreType').val(row.type);-dynamically select from drop down
+
+
+**********manage acces********
+changes required in 
+1.header
+2.Mangae role
+
+***************Masking*************
+ function maskFileds($string, $emailOrPohne) {
+        //If email 
+        if ($emailOrPohne == 1) {
+            $r = explode('@', $string);
+            $len = strlen(substr($r[0], 1));
+            $replaceChar = "";
+            for ($i = 0; $i < $len; $i++)
+                $replaceChar .= "*";
+            return substr($r[0], 0, 1) . $replaceChar . '@' . $r[1];
+        }//phone
+        else {
+
+            $len = strlen($string);
+            $replaceChar = "";
+            for ($i = 5; $i < $len; $i++)
+                $replaceChar .= "*";
+            return substr($string, 0, 5) . $replaceChar;
+        }
+    }
+	
+	
+	
+  $data['email'] = $this->Home_m->maskFileds($data['email'], 1);
+  $value['driverDetails']['phone'] = $this->Home_m->maskFileds($value['driverDetails']['countryCode'] . $value['driverDetails']['phone'], 2);
+  
+  
+  *************API************
+    $url = APILink . 'product';
+      
+        $response = json_decode($this->callapi->CallAPI('POST', $url, $data), true);
+		
+**************functiont to accept numbers and decimal
+onkeypress="return isNumberKey(event,this)"
+
+
+  function isNumberKey(evt, obj) {
+
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        var value = obj.value;
+        var dotcontains = value.indexOf(".") != -1;
+        if (dotcontains)
+            if (charCode == 46) return false;
+        if (charCode == 46) return true;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+}
+
+************by default select option in menu**********
+        $('.Category').addClass('active');
+		
+		
+*****************form validate*****************
+ else if(!$("#addManagerForm").valid()){
+               
+           }
+
+
+
+else if(!$("#addManagerForm").valid()){
+               
+           }
+		   
+**********language *************
+<?php echo $this->lang->line('Details'); ?>
+ 
+$language = ($this->session->userdata('lang'))?($this->session->userdata('lang')):'english';
+$this->lang->load('workinghour_lang',$language);
+
+
+ <li class="franchisecategory"><a  href="<?php echo base_url(); ?>index.php?/FranchiseCategory"><img style="width:20px" class="menuIconClass" src="<?php echo base_url() ?>theme/grocerIcons/list.png" >FRANCHISE PRODUCT CATEGORIES</a></li>
+ 
+ ***********************header paramater***********
+   beforeSend: function (xhr) {
+                    /* Authorization header */
+                    xhr.setRequestHeader("authorization", '12345');
+                    xhr.setRequestHeader("lan", 'en');
+
+                },
+				
+*****testing in stripe***********
+000123456789	Payout succeeds.
+personl num---110000000
+us--36066
+
+*********hide search list**********
+$("body").click
+		(
+		function(e)
+		{
+			console.log(e)
+			if(e.target.className !== "productDropdown")
+			{
+			$(".productDropdown").hide();
+			$('#productNameList').hide();
+			}
+		}
+	);
+	
+	
+*******Adoon edit issue********
+ foreach($Fdata['addOns'] as $AddOns){
+           
+            $languageArray = [];
+            if(count($langres)>=1){
+                if(count($AddOns['name'])==1){
+                    $languageArray['en'] =  $AddOns['name'][0]; 
+                }else{
+                    $languageArray = array_combine($lanCodeArr, $AddOns['name']);
+                }
+                
+            }else{
+                $languageArray['en'] =  $AddOns['name'][0]; 
+            }
+          
+            if (array_key_exists("id",$AddOns))
+                {
+                   $id=$AddOns['id'];
+                }else{
+                    $id=(string)new MongoDB\BSON\ObjectID();
+                }         
+            $addname=(object)$AddOns['name']; 
+            $languageArray = (object)$languageArray;
+            $dataAddOn = (object) array("id"=>$id,"name"=> $languageArray,"price"=>$AddOns['price']);          
+        array_push($dataAddOns, $dataAddOn);
+        }
+	
+*******sql********	
+https://www.guru99.com/introduction-to-database-sql.html
+
+https://drive.google.com/drive/folders/1RgY9TQuToibrlXWtoGtEJXJW_iMcm9J4
+
+*****search text disappear********
+ $("body").click
+            (
+            function(e)
+            {
+                console.log(e)
+                if(e.target.className !== "productDropdown")
+                {
+                $(".productDropdown").hide();
+                $('#productNameList').hide();
+                }
+            }
+        );
+		
+***str replace***********
+var str = "a,d,k";
+str = str.replace( /,/g, "" );
+console.log(str);
+
+*******projection******
+ $cityData = $this->mongo_db->aggregate('cities',[
+                ['$match'=>["cities.cityId"=>new MongoDB\BSON\ObjectID($val['cityId'])]],
+                ['$unwind'=>'$cities'],
+                ['$match'=>["cities.cityId"=>new MongoDB\BSON\ObjectID($val['cityId'])]],
+                ['$project'=>['cities.currencySymbol'=>1]]
+                ]);
+            foreach($cityData as $cData){
+               echo 'if'; echo '<pre>';print_r($cData);die;
+                $doc = json_decode(json_encode($cData),TRUE)['cities'];
+            }
+*****reset form at once*********
+$("#addSymptomn").trigger('reset');
+
+**dom installation********
+sudo apt-get install php-xml
+
+***restart php****
+service php7.0-fpm restart
+
+********aggregate*****
+ $cityData = $this->mongo_db->aggregate('cities',[
+                ['$match'=>["cities.cityId"=>new MongoDB\BSON\ObjectID($cityId)]],
+                ['$unwind'=>'$cities'],
+                ['$match'=>["cities.cityId"=>new MongoDB\BSON\ObjectID($cityId)]],
+                ['$project'=>['cities.laundry'=>1]]
+                ]);
+**aggregrate***
+For mongodb
+db.getCollection('childProducts').aggregate([
+   { $match: { storeId: ObjectId("5d8cd168c5fd605850a2e728") } },
+   { $unwind : "$units" },   
+   { $match: {   "units.availableQuantity": { $gt: 0 }  } },
+   { $project: {"units": 1 } },
+   { $sort: { _id: -1 } }
+])
+				
+*********permission in ubuntu*******
+chmod -R 777 env
+
+********node file access ************
+ nano /usr/etc/flexy
+********reload**********
+window.location.reload('');
+
+
+
+
+****ngnix directory path  setup******
+nano /etc/nginx/sites-available/default
+
+nano /etc/nginx/sites-available/default
+
+restart
+ service nginx restart
+
+********language********
+<?php echo $this->lang->line('Reports'); ?>
+
+
+**********multi select creation********
+
+=====>get data
+ $.ajax({
+                url: "<?php echo base_url(); ?>index.php?/AddNewProducts/getStore",
+                type: "POST",
+                data: {                   
+                },
+                dataType: "JSON",
+                success: function (result) {
+                    $('#storeFilter').empty();
+                    
+                    if(result.data){
+                        var html15 = '';
+                        var html15 = '<option storeName="" value="" >Select Store</option>';
+                        $.each(result.data, function (index, row) {
+                            html15 = '<option value="'+row._id.$oid+'" storeName="'+row.sName.en+'" >'+row.sName.en+'</option>';                             
+                            $('#storeFilter').append(html15);   
+                        });
+
+                        $('#storeFilter').multiselect({
+                            includeSelectAllOption: true,
+                            enableFiltering: true,
+                            enableCaseInsensitiveFiltering: true,
+                            buttonWidth: '100%',
+                            maxHeight: 300,
+                        });
+                                            
+
+                    }                    
+                }
+            });
+			
+			
+************for edit**********
+$.each( promodata.store, function(index,val){
+	var storedata=val;
+	$('#storeList').multiselect('select', storedata.storeId);
+});			
+	
+========>view
+
+ <div class="form-group" class="formex" id='notesId'>
+                        <label for="fname" class="col-sm-4 control-label"><?php echo "Store Name"; ?><span style="color:red;font-size: 12px"> *</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="form-control pull-left storeFilter" id="storeFilter" name="storeFilter[]" multiple="multiple">
+
+                            </select> 
+                        </div>
+                         <div class="col-sm-3 error-box errors" id="storeFilterErr">
+                        </div>
+                    </div>
+
+*************special character**************
+\'' + rows[i][key1] + '\'
+
+'<tr id=\'' + rows[i][key1] + '\'>'
+
+********exist***********
+$respo = $this->datatables->datatable_mongodb('customer',array('name' => array('$exists'=>true)));
+
+
+************chmode**********
+chmod -R 777 ./*
+
+*********js map function********
+// What you have
+var officers = [
+  { id: 20, name: 'Captain Piett' },
+  { id: 24, name: 'General Veers' },
+  { id: 56, name: 'Admiral Ozzel' },
+  { id: 88, name: 'Commander Jerjerrod' }
+];
+// What you need
+[20, 24, 56, 88]
+
+
+=====>foreach
+
+var officersIds = [];
+officers.forEach(function (officer) {
+  officersIds.push(officer.id);
+});
+
+=====>map
+var officersIds = officers.map(function (officer) {
+  return officer.id
+});
+
+=====>map using es6
+const officersIds = officers.map(officer => officer.id);
+
+
+********cities unwind using mongo************
+
+function getCities() {
+        $this->load->library('mongo_db');
+
+        $datatosend1 = $this->mongo_db->aggregate('cities',array(array('$unwind'=>'$cities'),
+        array('$match'=>array("cities.isDeleted"=>false)),
+        array('$project'=>array("cities.cityId"=>1,'_id'=>0,'cities.cityName'=>1))
+        ));
+
+        $getAll=[];
+        foreach($datatosend1 as $city){
+           $value = json_decode(json_encode($city), TRUE);
+           array_push($getAll,$value);          
+        }
+
+        // $getAll = $this->mongo_db->where(array('isDeleted' => FALSE))->get('cities');
+         return $getAll;
+    }
+	
+*********php online editor*************
+https://www.w3schools.com/php7/phptryit.asp?filename=tryphp_func_return_strict2
+
+
+********git******
+nano .git/config
+
+
+*******table filter**********
+$('#cityFilter').change(function(){
+			
+			var city=$('#cityFilter option:selected').attr('cityName');
+			var cityId=$('#cityFilter option:selected').val();
+			
+			table.fnFilter(city);
+			
+		});
+***increase file size**********
+ --->nginx
+ nano /etc/nginx/nginx.conf
+ 
+ 
+ client_max_body_size 100M;
+ 
+ 
+ --->php
+ nano  nano /etc/php/7.0/fpm/php.ini
+upload_max_filesize = 100M
+post_max_size = 100M
+ 
+******************terms and condition**************
+  $term='<!DOCTYPE html ><html><head><meta charset="utf-16"></head><body>'.$term.'</body></html>';
+  
+  
+***********rename***********
+db.getCollection('driver').updateMany({},{ $rename: { "accountType": "driverType" } })
+
+
+******error function in ajax***********
+error: function (jqXHR, textStatus, errorThrown) {
+                  if (jqXHR.status == 500) {
+                      alert('Internal error: ' + jqXHR.responseText);
+                  } else {
+                      alert('Unexpected error.');
+                  }
+              }
+			  
+******************session******************
+https://stackoverflow.com/questions/29289421/where-to-set-session-in-codeigniter	
+
+
+*************logout**************
+function Logout() {
+
+        $this->session->sess_destroy();
+        redirect(base_url() . "index.php?/superadmin");
+    }
+
+
+
+if ($this->session->userdata('table') != 'company_info') {
+	$this->Logout();
+}	
+
+
+*********Session expire*****
+csrf_expire ---session time out
+
+*************toggle functio**************
+   $('#bankAccountLinking').change(function () {
+                    if( $(this). prop("checked") == true){
+                       console.log('here')
+                    }   else{
+                       console.log('here')
+                    }                 
+            });
+			
+***********multiselect select on edit**********
+   $('#editcitiesList').multiselect('select', res);
+   
+   
+*************timeoffset*****************
+$timeOffSet=($this->session->userdata('badmin')['timeOffset'] * 60);
+$strtTimeOff=(strtotime($startDate . '00:00:00')+$timeOffSet );
+$endTimeOff=(strtotime($endDate . ' 23:59:59') +$timeOffSet);
+
+ array('$gte' => $strtTimeOff, '$lte' =>  $endTimeOff))
+ 
+ 
+ 
+ ====>date
+ 
+ db.getCollection('dispatchLogs').find({"dispatchedByServerAt": { $gte: 1570559400, $lte: 1570818599 } }).sort({"_id":-1})
+ 
+***************Repo**************
+
+Appscrip   maam need to Fork Repo with admin access
+Base Repo: https://bitbucket.org/rsharma87/delivx-base-admin-php7/src/master/ (DelivX-Base-Admin-PHP7)
+New Repo:- DelivX-Aldhil-Admin-PHP7
+give access to: avinash@mobifyi.com
+
+******************input with dropdown***************
+<span class="abs_text currencySymbol"><select  class="form-control " name="weightCapacity" id="weightCapacity">
+	<option value="Kg" data-name="Kg">KG</option>
+	<option value="Pound" data-name="Pound">Pound</option>
+</select></span> 
+
+******timezone*******
+1.Account
+2.Order
+
+***********multiselect***********
+$('#firstSubCategory').empty();
+$('#firstSubCategory').multiselect('refresh');
+$("#firstSubCategory").multiselect('destroy');
+
+if mark remains
+  $(".shiftName option:selected").removeAttr("selected");
+  
+**********datatable column hide/show*************************
+$('#big_table').on('init.dt', function () {
+
+            var urlChunks = $("li.active").find('.changeMode').attr('data').split('/');
+            var status = urlChunks[urlChunks.length - 1];
+            var forwhat = urlChunks[urlChunks.length - 2];
+
+            if (status == 0) {
+                $('#big_table').dataTable().fnSetColumnVis([6, 8, 9, 10,13,14,15,16,17,18], false);               
+
+            }
+			 if (status == 1) {
+                $('#big_table').dataTable().fnSetColumnVis([5, 6, 7, 9,11,12,13,14,15,16], false);             
+             }          
+      });
+	  
+******std class object to array*******
+iterator_to_array($Cats) 
+
+***dynamic table i modal**************
+<!-- TaxModal -->
+<div class="modal" id="taxModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Tax Estimate</h4>     
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">          
+         <div class="container" id="unitListData"></div>                 
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+ //  tax info
+        $('.taxInfo').click(function(){
+
+            var id = '<?php echo $cartId;?>';
+          
+            $.ajax({
+                url: '<?php echo base_url() ?>index.php?/CartsController/getTaxdetails/' + id,
+                type: "POST",
+                data: {id: id},
+                dataType: "JSON",
+                success: function (result) {  
+                    $('#unitListData').empty();
+                    var html = '';
+                    html='<table class="table table-bordered" id=""><tr style="font-size:14px; "><td style="text-align:center;width:250px;border-style: ridge;">SL No.</td><td style="text-align:center;width:250px;border-style: ridge;">Tax Name</td><td style="border-style: ridge;width:250px;text-align:center;">Tax Value</td><td style="border-style: ridge;width:250px;text-align:center;">Total Value</td></tr>';
+                    var k = 1;
+                    $.each(result.data.taxList, function (i, row) {
+                        html+= '<tr style="font-size:14px; "><td style="text-align:center;width:250px;border-style: ridge;">' + i + '</td><td style="text-align:center;width:250px;border-style: ridge;">' + row.taxName + '</td><td style="border-style: ridge;width:250px;text-align:center;">' + row.taxValue + '</td><td style="border-style: ridge;width:250px;text-align:center;">' + row.totalValue + '</td></tr>';                       
+                    });
+                    html+='</table>';
+                    $('#unitListData').append(html);
+
+                    $('#taxModal').modal('show');
+                }
+
+            });
+
+           
+        });
+		
+*************************************************************
+
+******************Object in jS*****************
+  var availableInCities = [];      
+        var cityDetail = {
+                        cityId: '<?php echo  $this->session->userdata('badmin')['cityId']; ?>',
+                        cityName: '<?php echo  $this->session->userdata('badmin')['cityName']; ?>'
+                    }
+        availableInCities.push(cityDetail);
+		
+********************trin in php*************
+$value = '  home  ,garden , gardener  ';
+$result = preg_replace('/[ ,]+/', '-', trim($value));
+
+echo $result;
+
+*******NOTE*********
+1.Python GET API for data table 
+Page name----Store Plan
+
+*******Select2 edit**********
+ $("#editweightCapacityUnit").append(`<option value="${result.data.weightCapacityUnit}" selected>${result.data.weightCapacityUnitName}</option>`);
+
+*************toogle*****************
+
+    .cmn-toggle {
+        position: absolute;
+        margin-left: -9999px;
+
+    }
+    .cmn-toggle + label {
+        display: block;
+        position: relative;
+        cursor: pointer;
+        outline: none;
+        user-select: none;
+    }
+    input.cmn-toggle-round + label {
+        padding: 2px;
+        width: 44px;
+        height: 16px;
+        background-color: #dddddd;
+        border-radius: 60px;
+    }
+    input.cmn-toggle-round + label:before,
+    input.cmn-toggle-round + label:after {
+        display: block;
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        bottom: 1px;
+        content: "";
+    }
+    input.cmn-toggle-round + label:before {
+        right: 1px;
+        background-color: #f1f1f1;
+        border-radius: 50px;
+        transition: background 0.4s;
+    }
+    input.cmn-toggle-round + label:after {
+        width: 16px;
+        background-color: #fff;
+        border-radius: 100%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        transition: margin 0.4s;
+    }
+    input.cmn-toggle-round:checked + label:before {
+        background-color: #8ce196;
+    }
+    input.cmn-toggle-round:checked + label:after {
+        margin-left:25px;
+    }
+	
+***trigger*******
+$( "#foo" ).trigger( "click" );
+
+
+******aopush Data*****
+'fnServerData': function (sSource, aoData, fnCallback)
+{
+	aoData.push({ name: 'storeType',value:storeType});    
+	aoData.push({ name: 'cityId',value:cityId});
+
+	$.ajax
+			({
+				'dataType': 'json',
+				'type': 'POST',
+				'url': sSource,
+				'data': aoData,
+				'success': fnCallback
+			});
+}

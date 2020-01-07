@@ -1,0 +1,70 @@
+=========================================================================
+For Empty Repo
+=========================================================================
+1.git init
+2.git add -A
+3.git commit -m "your message"
+4.git status (work tree clean)
+5.go to repo in bitbucket (Get local project into repo copy 1.git remote *****)-->paste in git bash
+6.copy second copy
+
+=========================================================================
+For Git Clone
+=========================================================================
+1. Go to putty
+2. sudo su
+3. cd /root/.ssh/
+4. ssh-keygen
+5. cat id_rsa.pub
+6. copy output of above command
+7.Go to repositort--->(biybucket)->setting->Access Key
+	* add copied key.
+10,In putty -->crete path and create it
+11.In bitbuucket get path for cloning with ssh
+12.Putty->enter the (select SSH)copy git clone and run
+13.clone repo in local and add .circleci folder and commit and push in repo(to push in bit bucket if needed)
+9.Circ->Add proj->Select proj->Add project,Select PHP-->Strat building
+14.In circle CI -->pro setting->Environment variabl(Set all the path defined in .sh file)
+15. check running job in circleci
+
+
+In corcle ci
+1.SSH permission ----(open .pem file in editor copy and paste it save)
+2.Environment variable---Ex:uname(ubuntu),ip-ip of app serve,path---path till where you want to commit(/var/www/html/Admin/admin)
+
+=========================================================================
+
+In circle CI
+=========================================================================
+1.Setting --->On the right tab
+2.SSH Permission(Copy the content of PEM file by opening it in editor)
+3.Environment variable
+		--Add variable
+		3.1 user---Ex:-Ubuntu
+		3.2 path (of the project)-->Ex:-/var/www/html/Admin/admin
+		3.3 ip of server(Fiel zilla)
+		3.4 pwd of app server
+=============================pull via Visual studio======================
+1. git clone gitpathlink ./   (./ one step back)----(get this by clicking on colne)
+2.git fetch
+3.git checkout branchname  (branchname will be available in link  or name of branch)
+4.git branch (to verify the branch)
+
+
+*********************************
+/var/www/html/Admin/admin# git clone git@bitbucket.org:rsharma87/delivx_gopatox_admin_php7.git ./
+
+*********My reference*********
+1.git clone in local (check wheter its gettin gpushed in bucket or not)
+2.git clone in server also (select ssh then copy git clone full link then run it)
+3.go to circle ci setup 
+  [1. ssh permisssion add it from .pem file
+   2.add environment file wrt to circle ci]
+
+**********git change if repo name is changed*****
+git remote set-url origin <new url>
+
+
+****git hard reset****
+git reset --hard
+git clean -fd

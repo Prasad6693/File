@@ -1,0 +1,14 @@
+Right click select Git bash here
+
+1.git init
+2.git add -A
+3.git commit -m "initial commit"
+4.git status (work tree clean)
+5.go to repo in bitbucket (Get local project into repo copy 1.git remote *****)-->paste in git bash
+Form step 2 copy first line and paste in git bash
+6.copy second link----wait till response
+
+
+git add .
+git commit -am " added - new code"
+git push origin branchname

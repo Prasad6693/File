@@ -1,0 +1,20 @@
+go to 
+/etc/nginx/
+vi nginx.conf
+add  client_max_body_size 8M;
+and : wq
+
+nano /etc/php5/fpm/php.ini-(verify the path) 
+/etc/php/7.0/fpm/php.ini
+serarch and replace press ctrl + w
+upload_max_filesize = 100M
+post_max_size = 100M
+
+to save
+ctrl+x
+to restart services
+sudo service php5-fpm restart
+sudo service nginx restart
+
+
+

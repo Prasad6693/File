@@ -1,0 +1,68 @@
+Putty Mongo
+Running mongo with authentication
+1.mongod --dbpath /var/lib/mongodb --auth --fork --logpath /var/lib/mongod.log --bind_ip 0.0.0.0 --port 5009
+
+Running mongo without authentication
+mongod --dbpath /var/lib/mongodb  --fork --logpath /var/lib/mongod.log --bind_ip 0.0.0.0 --port 5009
+
+db.createUser( { user: "hoodyAdmin", pwd: "xHh9Euc6xw9kMEuH", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] } )
+db.createUser({ user: "hoodyAppServer", pwd: "JSeqENNYssyS3j4g", roles: [ { role: "readWrite", db: "hoody" } ] } )
+db.createUser( { user: "hoodySuperadmin", pwd: "gXq2Ar8kygEdCSvR", roles: [ { role: "dbAdmin", db: "hoody" }, { role: "readWrite", db: "hoody" } , {role: "read", db: "local"} ] } )
+
+
+Login using mongo IP in Putty	
+  
+1.https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/--(Install MongoDB Community Edition using)
+	1.1 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+	1.2 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+		(we use ubuntu 16.04 kernel)
+	1.3 sudo apt-get update
+	1.4 sudo apt-get install -y mongodb-org
+	1.5 echo "mongodb-org hold" | sudo dpkg --set-selections
+		echo "mongodb-org-server hold" | sudo dpkg --set-selections
+		echo "mongodb-org-shell hold" | sudo dpkg --set-selections
+		echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
+		echo "mongodb-org-tools hold" | sudo dpkg --set-selections
+2.nano /etc/mongod.conf
+3.Change in config file	
+	3.1 port:5009(port number defined)
+	3.2 bindIp 0.0.0.0
+4.Exit
+5.service mongod start
+6.mongo --port 5009 (Enter into Mongo)
+7.Generate Random Pwd----https://passwordsgenerator.net/
+8.In putty -->use admin(db name specified)
+	8.1 db.createUser( { user: "hoodyAdmin", pwd: "xHh9Euc6xw9kMEuH", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] } )
+	8.2 use "name of DB"
+	db.createUser({ user: "hoodyAppServer", pwd: "JSeqENNYssyS3j4g", roles: [ { role: "readWrite", db: "hoody" } ] } )
+	db.createUser( { user: "hoodySuperadmin", pwd: "gXq2Ar8kygEdCSvR", roles: [ { role: "dbAdmin", db: "hoody" }, { role: "readWrite", db: "hoody" } , {role: "read", db: "local"} ] } )
+9.show users
+10.Get into mongo -->nano /etc/mongod.conf
+	10.1 uncommnet #security
+	10.2 add 
+		security:
+			authorization: enabled
+11.restart service
+12. check status
+13.check security 
+   mongo --port 5009(will not allow to access)
+14.Redix setup================
+install redis
+ sudo apt-get update
+ sudo apt-get install redis-server
+ nano /etc/redis/redis.conf
+  - Make comment to bind line by adding #
+  - Find requirepass line and replace it with (PWD is password for making connection with redis) :
+   requirepass PWD
+  - Find notify-keyspace-events "" and replace it with : 
+   notify-keyspace-events "KEA"
+  Restart Redis Server
+  service redis-server restart
+  
+  check redis testing
+    1.redis-cli
+	2.enter ping
+	3.response you will receive pong
+
+		
+	

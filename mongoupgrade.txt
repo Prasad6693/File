@@ -1,0 +1,5 @@
+sudo apt-get install php7.0-dev
+sudo pecl install mongodb
+nano /etc/php/7.0/fpm/php.ini add  -> extension=mongodb.so
+nano /etc/php/7.0/cli/php.ini add  -> extension=mongodb.so
+service php7.0-fpm restart

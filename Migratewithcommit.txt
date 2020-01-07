@@ -1,0 +1,7 @@
+1.Login to user accout (To which you want to push code with commit ids)
+
+Step 1:Click on create repository from menu
+Step 2; Click on import repository on main page
+Step 3: in URL specify your GIT url which is source
+Step 4: Specify repo name
+Step 5: ok 

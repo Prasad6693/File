@@ -1,0 +1,9 @@
+Putty
+.HAproxy
+1.login using username ex:ubuntu
+2.login as super user (sudo su )
+3.open the file for haproxy using path nano /etc/haproxy/haproxy.cfg
+4.file will be open 
+5.Change all the IP's respectively to the servers
+6.restart the haproxy servers --service haproxy restart
+7.Check the status 	---service haproxy status

@@ -1,0 +1,7 @@
+1.export PROCESS_TYPE=web
+2.export MYPATH=data
+3.nodemon mainServer.js
+4. node MainServer.js
+
+
+

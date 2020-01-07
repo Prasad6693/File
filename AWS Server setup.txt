@@ -1,0 +1,18 @@
+1.Aws console
+2.Click on EC2
+3.If AMI already exist Copy AMI image else create it
+4.Steps to copy AMI image
+4.1 select the region from which you want to creare the image
+4.2  Click on instance for creating instance
+4.3  No reboot is mandatory 
+4.4  Name the image--Mongo,Appserver,Mqtt,Loadbalancer,Elasticserver  (Select the image to be created and click on Create and image create)
+4.5  Next click on AMI's
+4.6  Account Number enter in permisssin
+4.7  Go to client Account copy image from main location to client location-->Select Action Copy AMi ->Select region
+4.8	AppServer----T2 small,
+4.9	ElasticServer----T2 medium
+5.0	MQtt ---t2 micro
+5.1 LoadBalancer----t2 small
+5.2	Mongo---t2 small
+5.3
+5.4
